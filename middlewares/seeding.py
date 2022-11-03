@@ -1,0 +1,32 @@
+from sqlalchemy.orm import Session
+import models
+
+
+#
+# get_db = database.get_db
+
+
+def seeding(db: Session):
+    admin = db.query(models.User).all()
+
+    if not admin:
+        new_admin = models.User(
+            first_name="bruce",
+            last_name="wayne",
+            email="bruce@wayne.com",
+            password="batman",
+            role="admin")
+        db.add(new_admin)
+        db.commit()
+        db.refresh(new_admin)
+    else:
+        pass
+
+
+def check_admin(request, db: Session):
+    admin = db.query(models.User).filter(models.User.role == request.role).first()
+
+    if not admin:
+        return False
+    else:
+        return True
