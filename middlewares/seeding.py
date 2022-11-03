@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 import models
-
+from hashing import Hasher
 
 #
 # get_db = database.get_db
@@ -14,7 +14,7 @@ def seeding(db: Session):
             first_name="bruce",
             last_name="wayne",
             email="bruce@wayne.com",
-            password="batman",
+            password=Hasher.get_password_hash("batman"),
             role="admin")
         db.add(new_admin)
         db.commit()
