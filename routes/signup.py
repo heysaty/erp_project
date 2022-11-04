@@ -13,7 +13,7 @@ router = APIRouter(
 get_db = database.get_db
 
 
-@router.post('/signup', )
+@router.post('/signup',status_code=status.HTTP_201_CREATED )
 def signup(request: schemas.User, db: Session = Depends(get_db)):
     token = db.query(models.Tokens).first()
     if not token:

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import  Optional
-
+from datetime import date as date_type
 
 # pydantic model are called schema
 # these are response model
@@ -34,3 +34,13 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+
+class Leaves(BaseModel):
+    leave_date: date_type
+    leave_type: str      # fullday or halfday
+
+class Leaves_response(BaseModel):
+    leave_date: str
+    leave_type: str      # fullday or halfday
+

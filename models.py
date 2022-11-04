@@ -2,6 +2,7 @@ import enum
 from sqlalchemy import Column, Integer, ForeignKey, String, Enum
 from sqlalchemy.orm import relationship
 from database import Base
+from datetime import date as date_type
 
 
 # from sqlalchemy import Integer, Enum
@@ -32,11 +33,16 @@ class Leaves(Base):
     __tablename__ = 'leaves'
 
     id = Column(Integer, primary_key=True, index=True)
+
+    date = Column(String)
     leave_type = Column(String)
     leave_status = Column(String)
+
     user_id = Column(Integer, ForeignKey('users.id'))
 
     leave_user = relationship("User", back_populates='user_leaves')
+
+
 
 
 class Tokens(Base):
