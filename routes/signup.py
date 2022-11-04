@@ -50,3 +50,5 @@ def signup(request: schemas.User, db: Session = Depends(get_db)):
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                 detail="Only Admin can create user")
+
+
