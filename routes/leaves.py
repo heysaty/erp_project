@@ -16,7 +16,7 @@ router = APIRouter(
 get_db = database.get_db
 
 
-@router.post('/leaves')
+@router.post('/leaves', status_code=status.HTTP_201_CREATED)
 def leaves(request: schemas.Leaves, db: Session = Depends(get_db)):
     token = db.query(models.Tokens).first()
     if not token:
@@ -33,7 +33,17 @@ def leaves(request: schemas.Leaves, db: Session = Depends(get_db)):
             db.add(new_leave)
             db.commit()
             db.refresh(new_leave)
-
             return new_leave
+        if user.role == 'admin':
+            new_leave = models.Leaves(date=str(request.leave_date),
+                                      leave_type=request.leave_type,
+                                      leave_status="Pending",
+                                      user_id=user.id)
+            db.add(new_leave)
+            db.commit()
+            db.refresh(new_leave)
+            return new_leave
+
+
 
 
