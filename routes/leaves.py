@@ -62,7 +62,7 @@ def all(db: Session = Depends(get_db)):
             return all_leaves
 
 
-@router.post('/leaves/approve/{id}', status_code=status.HTTP_201_CREATED)
+@router.put('/leaves/approve/{id}', status_code=status.HTTP_201_CREATED)
 def approve(id: int, db: Session = Depends(get_db)):
     token = db.query(models.Tokens).first()
     if not token:
@@ -87,7 +87,7 @@ def approve(id: int, db: Session = Depends(get_db)):
                                 detail="Only Admin can approve")
 
 
-@router.post('/leaves/reject/{id}', status_code=status.HTTP_201_CREATED)
+@router.put('/leaves/reject/{id}', status_code=status.HTTP_201_CREATED)
 def reject(id: int, db: Session = Depends(get_db)):
     token = db.query(models.Tokens).first()
     if not token:
