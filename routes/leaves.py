@@ -71,11 +71,9 @@ def approve(id: int, db: Session = Depends(get_db)):
     else:
         user = db.query(models.User).filter(models.User.id == token.user_id).first()
         if user.role == 'admin':
-            employee = db.query(models.Leaves).filter(models.Leaves.user_id == id).all()
-            # print(employee)
+            employee = db.query(models.Leaves).filter(models.Leaves.id == id).first()
 
-            for user in employee:
-                user.leave_status = 'Approved'
+            employee.leave_status = 'Approved'
 
             db.commit()
             db.close()
@@ -96,11 +94,11 @@ def reject(id: int, db: Session = Depends(get_db)):
     else:
         user = db.query(models.User).filter(models.User.id == token.user_id).first()
         if user.role == 'admin':
-            employee = db.query(models.Leaves).filter(models.Leaves.user_id == id).all()
+            employee = db.query(models.Leaves).filter(models.Leaves.id == id).first()
             # print(employee)
 
-            for user in employee:
-                user.leave_status = 'Rejected'
+
+            employee.leave_status = 'Rejected'
 
             db.commit()
             db.close()

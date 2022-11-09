@@ -7,7 +7,7 @@ from datetime import date as date_type
 
 class ShowUser(BaseModel):
     email: str
-    role: str
+
     password: str
 
     class Config():
@@ -19,6 +19,7 @@ class ShowUser(BaseModel):
 class User(ShowUser):
     first_name: str
     last_name: str
+    role: str
 
 
     class Config():

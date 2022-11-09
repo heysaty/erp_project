@@ -19,6 +19,7 @@ get_db = database.get_db
 @router.post('/login')
 def login(request: schemas.ShowUser, db: Session = Depends(get_db)):
     seeding.seeding(db)
+    # print(request.email, request.password)
 
     token = db.query(models.Tokens).first()
     if token:
@@ -37,9 +38,9 @@ def login(request: schemas.ShowUser, db: Session = Depends(get_db)):
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                                 detail="Incorrect Password")
 
-        if not user.role == request.role:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                                detail="Invalid Role")
+        # if not user.role == request.role:
+        #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+        #                         detail="Invalid Role")
 
         access_token = create_access_token(data={"sub": user.email})
 

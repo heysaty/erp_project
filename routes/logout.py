@@ -11,7 +11,7 @@ router = APIRouter(
 # db: Session = Depends(database.get_db)
 
 ### logout hone k bad logout krne pad login first return karega
-@router.delete('/logout')
+@router.put('/logout')
 def logout(db: Session = Depends(database.get_db),):
     tokens= db.query(models.Tokens)
 
