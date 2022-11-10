@@ -29,7 +29,8 @@ def create(request: schemas.Leaves, db: Session = Depends(get_db)):
             new_leave = models.Leaves(date=str(request.leave_date),
                                       leave_type=request.leave_type,
                                       leave_status="Pending",
-                                      user_id=user.id)
+                                      user_id=user.id,
+                                      leave_user=user)
             db.add(new_leave)
             db.commit()
             db.refresh(new_leave)
@@ -38,7 +39,8 @@ def create(request: schemas.Leaves, db: Session = Depends(get_db)):
             new_leave = models.Leaves(date=str(request.leave_date),
                                       leave_type=request.leave_type,
                                       leave_status="Pending",
-                                      user_id=user.id)
+                                      user_id=user.id,
+                                      leave_user=user)
             db.add(new_leave)
             db.commit()
             db.refresh(new_leave)
@@ -55,6 +57,14 @@ def all(db: Session = Depends(get_db)):
         user = db.query(models.User).filter(models.User.id == token.user_id).first()
         if user.role == 'employee':
             employee_leaves = db.query(models.Leaves).filter(models.Leaves.user_id == user.id).all()
+            # all_users = db.query(models.User).all()
+            # employee_leaves= dict(employee_leaves)
+            # for leaves in employee_leaves:
+            #     for users in all_users:
+            #         if leaves.user_id == users.id:
+            #             leaves['name'] = str(users.first_name) + str(users.last_name)
+
+
             return employee_leaves
 
         if user.role == 'admin':
@@ -97,7 +107,6 @@ def reject(id: int, db: Session = Depends(get_db)):
             employee = db.query(models.Leaves).filter(models.Leaves.id == id).first()
             # print(employee)
 
-
             employee.leave_status = 'Rejected'
 
             db.commit()
@@ -108,4 +117,3 @@ def reject(id: int, db: Session = Depends(get_db)):
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                 detail="Only Admin can approve")
-
