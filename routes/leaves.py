@@ -34,6 +34,7 @@ def create(request: schemas.Leaves, db: Session = Depends(get_db)):
             db.add(new_leave)
             db.commit()
             db.refresh(new_leave)
+
             return new_leave
         if user.role == 'admin':
             new_leave = models.Leaves(date=str(request.leave_date),
@@ -47,7 +48,7 @@ def create(request: schemas.Leaves, db: Session = Depends(get_db)):
             return new_leave
 
 
-@router.get('/leaves', status_code=status.HTTP_201_CREATED)
+@router.get('/leaves', status_code=status.HTTP_200_OK)
 def all(db: Session = Depends(get_db)):
     token = db.query(models.Tokens).first()
     if not token:

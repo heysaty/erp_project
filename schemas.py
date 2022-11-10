@@ -37,6 +37,8 @@ class TokenData(BaseModel):
     email: Optional[str] = None
 
 
+
+
 class Leaves(BaseModel):
     leave_date: date_type
     leave_type: str      # fullday or halfday
@@ -44,4 +46,13 @@ class Leaves(BaseModel):
 class Leaves_response(BaseModel):
     leave_date: str
     leave_type: str      # fullday or halfday
+
+
+
+# class leave_table(BaseModel):
+#     leave_date: str
+#     leave_type: str  # fullday or halfday
+#     leave_status: str
+#     leave_user: dict
+
 
