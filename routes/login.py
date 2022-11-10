@@ -42,7 +42,7 @@ def login(request: schemas.ShowUser, db: Session = Depends(get_db)):
         #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
         #                         detail="Invalid Role")
 
-        access_token = create_access_token(data={"sub": user.email})
+        access_token = create_access_token(data={"email": user.email, "role": user.role})
 
         tokens.tokendb(user.id, access_token, db)
 
