@@ -61,9 +61,16 @@ def all(db: Session = Depends(get_db)):
             #     for users in all_users:
             #         if leaves.user_id == users.id:
             #             leaves['name'] = str(users.first_name) + str(users.last_name)
+            user_name = []
+            for leaves in employee_leaves:
+                name = {}
+                name["name"] = leaves.leave_user
+                name['leave_type']= leaves.leave_type
+                name['leave_status']= leaves.leave_status
+                name['date']= leaves.date
+                user_name.append(name)
 
-
-            return employee_leaves
+            return user_name
 
         if user.role == 'admin':
             all_leaves = db.query(models.Leaves).all()
@@ -80,7 +87,7 @@ def approve(id: int, db: Session = Depends(get_db)):
         user = db.query(models.User).filter(models.User.id == token.user_id).first()
         if user.role == 'admin':
             employee = db.query(models.Leaves).filter(models.Leaves.id == id).first()
-            approved_user=db.query(models.User).filter(models.User.id==employee.user_id).first()
+            approved_user = db.query(models.User).filter(models.User.id == employee.user_id).first()
 
             # emailsender.send_the_mail(approved_user.email,"approved")
 
