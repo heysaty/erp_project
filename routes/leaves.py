@@ -74,7 +74,17 @@ def all(db: Session = Depends(get_db)):
 
         if user.role == 'admin':
             all_leaves = db.query(models.Leaves).all()
-            return all_leaves
+
+            user_name = []
+            for leaves in all_leaves:
+                name = {}
+                name["name"] = leaves.leave_user
+                name['leave_type'] = leaves.leave_type
+                name['leave_status'] = leaves.leave_status
+                name['date'] = leaves.date
+                user_name.append(name)
+
+            return user_name
 
 
 @router.put('/leaves/approve/{id}', status_code=status.HTTP_201_CREATED)
