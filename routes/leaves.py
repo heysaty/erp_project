@@ -68,6 +68,7 @@ def all(db: Session = Depends(get_db)):
                 name['leave_type']= leaves.leave_type
                 name['leave_status']= leaves.leave_status
                 name['date']= leaves.date
+                name['id'] = leaves.id
                 user_name.append(name)
 
             return user_name
@@ -82,6 +83,7 @@ def all(db: Session = Depends(get_db)):
                 name['leave_type'] = leaves.leave_type
                 name['leave_status'] = leaves.leave_status
                 name['date'] = leaves.date
+                name['id']=leaves.id
                 user_name.append(name)
 
             return user_name
