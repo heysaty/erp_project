@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 import database
 import models
 import schemas
+import emailsender
 from middlewares import seeding
 from middlewares import tokens
 from jwttoken import create_access_token
@@ -83,6 +84,9 @@ def approve(id: int, db: Session = Depends(get_db)):
         user = db.query(models.User).filter(models.User.id == token.user_id).first()
         if user.role == 'admin':
             employee = db.query(models.Leaves).filter(models.Leaves.id == id).first()
+            approved_user=db.query(models.User).filter(models.User.id==employee.user_id).first()
+
+            emailsender.send_the_mail(approved_user.email,"approved")
 
             employee.leave_status = 'Approved'
 
@@ -106,6 +110,10 @@ def reject(id: int, db: Session = Depends(get_db)):
         user = db.query(models.User).filter(models.User.id == token.user_id).first()
         if user.role == 'admin':
             employee = db.query(models.Leaves).filter(models.Leaves.id == id).first()
+
+            rejected_user = db.query(models.User).filter(models.User.id == employee.user_id).first()
+
+            emailsender.send_the_mail(rejected_user.email, "rejected")
             # print(employee)
 
             employee.leave_status = 'Rejected'
