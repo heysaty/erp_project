@@ -1,14 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordRequestForm
+
 import database
 import models
 import schemas
 import emailsender
-from middlewares import seeding
-from middlewares import tokens
-from jwttoken import create_access_token
-from hashing import Hasher
 
 router = APIRouter(
     tags=['Leaves']
@@ -86,7 +82,7 @@ def approve(id: int, db: Session = Depends(get_db)):
             employee = db.query(models.Leaves).filter(models.Leaves.id == id).first()
             approved_user=db.query(models.User).filter(models.User.id==employee.user_id).first()
 
-            emailsender.send_the_mail(approved_user.email,"approved")
+            # emailsender.send_the_mail(approved_user.email,"approved")
 
             employee.leave_status = 'Approved'
 
@@ -113,7 +109,7 @@ def reject(id: int, db: Session = Depends(get_db)):
 
             rejected_user = db.query(models.User).filter(models.User.id == employee.user_id).first()
 
-            emailsender.send_the_mail(rejected_user.email, "rejected")
+            # emailsender.send_the_mail(rejected_user.email, "rejected")
             # print(employee)
 
             employee.leave_status = 'Rejected'
