@@ -1,12 +1,14 @@
-import credentials
+
 from email.message import EmailMessage
 import ssl
 import smtplib
+from config import settings
 
 
 def send_the_mail(email_receiver, msg):
     email_sender = "kumarsatyam035@gmail.com"
-    password = credentials.EMAIL_PASSWORD
+    password = settings.EMAIL_TOKEN
+
     cc = "satyam@gkmit.co"
 
     subject = "Email Sender Testing"
