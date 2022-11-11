@@ -29,6 +29,8 @@ def create(request: schemas.Leaves, db: Session = Depends(get_db)):
                                       user_id=user.id,
                                       leave_user=user)
             db.add(new_leave)
+
+
             db.commit()
             db.refresh(new_leave)
 
@@ -55,12 +57,7 @@ def all(db: Session = Depends(get_db)):
         user = db.query(models.User).filter(models.User.id == token.user_id).first()
         if user.role == 'employee':
             employee_leaves = db.query(models.Leaves).filter(models.Leaves.user_id == user.id).all()
-            # all_users = db.query(models.User).all()
-            # employee_leaves= dict(employee_leaves)
-            # for leaves in employee_leaves:
-            #     for users in all_users:
-            #         if leaves.user_id == users.id:
-            #             leaves['name'] = str(users.first_name) + str(users.last_name)
+
             user_name = []
             for leaves in employee_leaves:
                 name = {}
