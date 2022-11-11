@@ -70,6 +70,24 @@ def test_getleaves():
 
     client.put('/logout')
 
+
+
+
+    data = {
+        "email": "satyam@gkmit.co",
+        "password": "satyam"
+    }
+    client.post("/login", json.dumps(data))
+
+    response_employee = client.get("/leaves")
+
+    assert response_employee.status_code==200
+    assert response_employee.json() is not None
+
+    client.put('/logout')
+
+
+
     # assert response.json()[0] == database
 
 

@@ -22,11 +22,3 @@ def seeding(db: Session):
     else:
         pass
 
-
-def check_admin(request, db: Session):
-    admin = db.query(models.User).filter(models.User.role == request.role).first()
-
-    if not admin:
-        return False
-    else:
-        return True

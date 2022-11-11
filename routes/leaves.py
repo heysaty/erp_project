@@ -29,8 +29,6 @@ def create(request: schemas.Leaves, db: Session = Depends(get_db)):
                                       user_id=user.id,
                                       leave_user=user)
             db.add(new_leave)
-
-
             db.commit()
             db.refresh(new_leave)
 

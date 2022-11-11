@@ -4,6 +4,7 @@ import pytest
 import sys
 import os
 import json
+from jwttoken import verify_token
 
 # from routes import login
 #
@@ -20,7 +21,7 @@ def test_login():
     response = client.post("/login", json.dumps(data))
 
 
+
     assert response.status_code == 200
     assert response.json()['access_token'] is not None
     assert response.json()['token_type'] == "bearer"
-
